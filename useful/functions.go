@@ -1,7 +1,7 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "github.com/feyeleanor/wishful"
 )
 
 func Append(a Semigroup, b Semigroup) Semigroup {

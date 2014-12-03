@@ -1,5 +1,7 @@
 package wishful
 
+//	http://en.wikipedia.org/wiki/Monoid
+
 type Monoid interface {
 	Empty() Monoid
 }

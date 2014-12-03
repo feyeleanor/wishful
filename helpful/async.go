@@ -9,7 +9,7 @@ var (
 	EitherPromise EitherT = NewEitherT(Promise{})
 )
 
-func Async(f func(x Any) Promise) func(x Any) EitherT {
+func Async(f Contract) func(x Any) EitherT {
 	return func(x Any) EitherT {
 		return EitherPromise.From(
 			NewPromise(

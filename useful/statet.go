@@ -1,7 +1,7 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "github.com/feyeleanor/wishful"
 )
 
 type StateT struct {
@@ -38,7 +38,7 @@ func (x StateT) Of(a Any) Point {
 	}
 }
 
-func (x StateT) Chain(f func(a Any) Monad) Monad {
+func (x StateT) Chain(f Step) Monad {
 	return StateT{
 		m: x.m,
 		Run: func(b Any) Point {
@@ -62,7 +62,7 @@ func (x StateT) Get() StateT {
 	}
 }
 
-func (x StateT) Modify(f func(b Any) Any) StateT {
+func (x StateT) Modify(f Transform) StateT {
 	return StateT{
 		m: x.m,
 		Run: func(b Any) Point {
@@ -91,7 +91,7 @@ func (x StateT) ExecState(s Any) Any {
 	})
 }
 
-func (x StateT) Map(f func(x Any) Any) Functor {
+func (x StateT) Map(f Transform) Functor {
 	return x.Chain(func(a Any) Monad {
 		fun := NewFunction(f)
 		res, _ := fun.Call(a)

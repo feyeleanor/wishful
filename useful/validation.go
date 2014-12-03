@@ -1,13 +1,13 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "github.com/feyeleanor/wishful"
 )
 
 type Validation interface {
 	Of(v Any) Point
 	Ap(v Applicative) Applicative
-	Chain(f func(v Any) Monad) Monad
+	Monad
 	Concat(y Semigroup) Semigroup
 	Map(f Transform) Functor
 	Fold(f, g Transform) Any
@@ -61,11 +61,11 @@ func (x Success) Ap(v Applicative) Applicative {
 	}).(Applicative)
 }
 
-func (x Failure) Chain(f func(v Any) Monad) Monad {
+func (x Failure) Chain(f Step) Monad {
 	return x
 }
 
-func (x Success) Chain(f func(v Any) Monad) Monad {
+func (x Success) Chain(f Step) Monad {
 	return f(x.x)
 }
 

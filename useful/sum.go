@@ -1,7 +1,7 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "github.com/feyeleanor/wishful"
 )
 
 type Sum struct {
@@ -23,7 +23,7 @@ func (x Sum) Empty() Monoid {
 	return NewSum(Int(0))
 }
 
-func (x Sum) Chain(f func(v Any) Monad) Monad {
+func (x Sum) Chain(f Step) Monad {
 	return f(x.x)
 }
 

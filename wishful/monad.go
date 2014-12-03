@@ -1,7 +1,11 @@
 package wishful
 
+//	http://en.wikipedia.org/wiki/Monad_(functional_programming)
+
+type Step func(v Any) Monad
+
 type Monad interface {
-	Chain(f func(v Any) Monad) Monad
+	Chain(Step) Monad
 }
 
 type MonadLaws struct {

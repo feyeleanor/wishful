@@ -1,17 +1,17 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "github.com/feyeleanor/wishful"
 )
+
+type Contract func(Any) Promise
 
 type Promise struct {
 	Fork func(resolve Transform) Any
 }
 
 func NewPromise(f func(resolve Transform) Any) Promise {
-	return Promise{
-		Fork: f,
-	}
+	return Promise{Fork: f}
 }
 
 func (x Promise) Of(v Any) Point {

@@ -2,7 +2,8 @@ package useful
 
 import (
 	"reflect"
-	. "github.com/SimonRichardson/wishful/wishful"
+
+	. "github.com/feyeleanor/wishful"
 )
 
 type Accessor interface {

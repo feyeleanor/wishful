@@ -1,13 +1,13 @@
 package useful
 
 import (
-	. "./wishful"
+	. "github.com/feyeleanor/wishful"
 )
 
 type Either interface {
 	Of(Any) Point
 	Ap(Applicative) Applicative
-	Chain(func(Any) Monad) Monad
+	Chain(Step) Monad
 	Concat(Semigroup) Semigroup
 	Map(Transform) Functor
 	Bimap(f, g Transform) Monad
@@ -49,11 +49,11 @@ func (x Right) Ap(v Applicative) Applicative {
 	return fromMonadToApplicativeAp(x, v)
 }
 
-func (x Left) Chain(f func(v Any) Monad) Monad {
+func (x Left) Chain(f Step) Monad {
 	return x
 }
 
-func (x Right) Chain(f func(v Any) Monad) Monad {
+func (x Right) Chain(f Step) Monad {
 	return f(x.x)
 }
 

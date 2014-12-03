@@ -1,5 +1,7 @@
 package wishful
 
+//	http://en.wikipedia.org/wiki/Semigroup
+
 type Semigroup interface {
 	Concat(x Semigroup) Semigroup
 }

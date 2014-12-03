@@ -1,7 +1,7 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "github.com/feyeleanor/wishful"
 )
 
 type EitherT struct {
@@ -47,7 +47,7 @@ func (x EitherT) Ap(v Applicative) Applicative {
 	return mon.(Applicative)
 }
 
-func (x EitherT) Chain(f func(v Any) Monad) Monad {
+func (x EitherT) Chain(f Step) Monad {
 	mon := x.Run.(Monad)
 	tra := EitherT{
 		m: x.m,
