@@ -1,7 +1,7 @@
 package useful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
+	. "./wishful"
 )
 
 type Either interface {
@@ -9,12 +9,12 @@ type Either interface {
 	Ap(Applicative) Applicative
 	Chain(func(Any) Monad) Monad
 	Concat(Semigroup) Semigroup
-	Map(func(Any) Any) Functor
-	Bimap(func(Any) Any, func(Any) Any) Monad
-	Fold(func(Any) Any, func(Any) Any) Any
+	Map(Transform) Functor
+	Bimap(f, g Transform) Monad
+	Fold(f, g Transform) Any
 	Swap() Monad
 	Sequence(Point) Any
-	Traverse(func(Any) Any, Point) Functor
+	Traverse(Transform, Point) Functor
 }
 
 type Left struct {
@@ -26,15 +26,11 @@ type Right struct {
 }
 
 func NewLeft(x Any) Left {
-	return Left{
-		x: x,
-	}
+	return Left{x: x}
 }
 
 func NewRight(x Any) Right {
-	return Right{
-		x: x,
-	}
+	return Right{x: x}
 }
 
 func (x Left) Of(v Any) Point {
@@ -61,11 +57,11 @@ func (x Right) Chain(f func(v Any) Monad) Monad {
 	return f(x.x)
 }
 
-func (x Left) Map(f func(v Any) Any) Functor {
+func (x Left) Map(f Transform) Functor {
 	return x
 }
 
-func (x Right) Map(f func(v Any) Any) Functor {
+func (x Right) Map(f Transform) Functor {
 	res := x.Chain(func(v Any) Monad {
 		return NewRight(f(v))
 	})
@@ -89,19 +85,19 @@ func (x Right) Swap() Monad {
 	return NewLeft(x.x)
 }
 
-func (x Left) Bimap(f func(v Any) Any, g func(v Any) Any) Monad {
+func (x Left) Bimap(f, g Transform) Monad {
 	return NewLeft(f(x.x))
 }
 
-func (x Right) Bimap(f func(v Any) Any, g func(v Any) Any) Monad {
+func (x Right) Bimap(f, g Transform) Monad {
 	return NewRight(g(x.x))
 }
 
-func (x Left) Fold(f func(v Any) Any, g func(v Any) Any) Any {
+func (x Left) Fold(f, g Transform) Any {
 	return f(x.x)
 }
 
-func (x Right) Fold(f func(v Any) Any, g func(v Any) Any) Any {
+func (x Right) Fold(f, g Transform) Any {
 	return g(x.x)
 }
 
@@ -113,11 +109,11 @@ func (x Right) Sequence(p Point) Any {
 	return x.Traverse(Identity, p)
 }
 
-func (x Left) Traverse(f func(Any) Any, p Point) Functor {
+func (x Left) Traverse(f Transform, p Point) Functor {
 	return p.Of(NewLeft(x.x)).(Functor)
 }
 
-func (x Right) Traverse(f func(Any) Any, p Point) Functor {
+func (x Right) Traverse(f Transform, p Point) Functor {
 	return f(x.x).(Functor).Map(func(a Any) Any {
 		return NewRight(a)
 	})

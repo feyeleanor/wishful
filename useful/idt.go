@@ -46,7 +46,7 @@ func (x IdT) Chain(f func(v Any) Monad) Monad {
 	return tra
 }
 
-func (x IdT) Map(f func(v Any) Any) Functor {
+func (x IdT) Map(f Transform) Functor {
 	mon := x.Chain(func(y Any) Monad {
 		app := NewIdT(x.m).Of(f(y))
 		return app.(Monad)

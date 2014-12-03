@@ -21,7 +21,6 @@ func FromAnyToInt(v Any) (Int, error) {
 		return Int(obj), nil
 	} else if obj, ok := v.(Int); ok {
 		return obj, nil
-	} else {
-		return Int(int(math.NaN())), errors.New("Type error, invalid Int")
 	}
+	return Int(int(math.NaN())), errors.New("Type error, invalid Int")
 }

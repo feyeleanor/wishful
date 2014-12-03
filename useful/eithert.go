@@ -30,7 +30,7 @@ func (x EitherT) From(v Any) EitherT {
 	}
 }
 
-func (x EitherT) Fold(f func(v Any) Any, g func(v Any) Any) Any {
+func (x EitherT) Fold(f, g Transform) Any {
 	return x.Run.(Monad).Chain(func(o Any) Monad {
 		return x.m.Of(o.(Foldable).Fold(f, g)).(Monad)
 	})
@@ -65,7 +65,7 @@ func (x EitherT) Chain(f func(v Any) Monad) Monad {
 	return tra
 }
 
-func (x EitherT) Map(f func(v Any) Any) Functor {
+func (x EitherT) Map(f Transform) Functor {
 	mon := x.Chain(func(y Any) Monad {
 		app := NewEitherT(x.m).Of(f(y))
 		return app.(Monad)
@@ -86,7 +86,7 @@ func (x EitherT) Swap() Monad {
 	).(Monad)
 }
 
-func (x EitherT) Bimap(f func(v Any) Any, g func(v Any) Any) Monad {
+func (x EitherT) Bimap(f, g Transform) Monad {
 	return x.Fold(
 		func(v Any) Any {
 			return NewLeft(f(v))

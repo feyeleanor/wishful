@@ -1,35 +1,31 @@
 package wishful
 
-func IncInt(a int) int {
-	return a + 1
+type Transform func(Any) Any
+
+func Inc(a Any) (r Any) {
+	switch obj := a.(type) {
+	case int:
+		r = obj + 1
+	case float32:
+		r = obj + 1
+	case float64:
+		r = obj + 1
+	default:
+		r = a
+	}
+	return
 }
 
-func Inc(a Any) Any {
-	if obj, ok := a.(int); ok {
-		return obj + 1
+func Dec(a Any) (r Any) {
+	switch obj := a.(type) {
+	case int:
+		r = obj - 1
+	case float32:
+		r = obj - 1
+	case float64:
+		r = obj - 1
+	default:
+		r = a
 	}
-	if obj, ok := a.(float32); ok {
-		return obj + 1.0
-	}
-	if obj, ok := a.(float64); ok {
-		return obj + 1.0
-	}
-	return a
-}
-
-func DecInt(a int) int {
-	return a - 1
-}
-
-func Dec(a Any) Any {
-	if obj, ok := a.(int); ok {
-		return obj - 1
-	}
-	if obj, ok := a.(float32); ok {
-		return obj - 1.0
-	}
-	if obj, ok := a.(float64); ok {
-		return obj - 1.0
-	}
-	return a
+	return
 }
