@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 func Append(a Semigroup, b Semigroup) Semigroup {
 	return a.Concat(b)

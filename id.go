@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type Id struct {
 	x Any
@@ -22,7 +18,7 @@ func (x Id) Ap(v Applicative) Applicative {
 	return fromMonadToApplicativeAp(x, v)
 }
 
-func (x Id) Chain(f func(v Any) Monad) Monad {
+func (x Id) Chain(f Step) Monad {
 	return f(x.x)
 }
 

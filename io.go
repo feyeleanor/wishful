@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type IO struct {
 	UnsafePerform func() Any
@@ -33,7 +29,7 @@ func (x IO) Ap(v Applicative) Applicative {
 	return res.(Applicative)
 }
 
-func (x IO) Chain(f func(x Any) Monad) Monad {
+func (x IO) Chain(f Step) Monad {
 	return NewIO(func() Any {
 		io := f(x.UnsafePerform()).(IO)
 		return io.UnsafePerform()

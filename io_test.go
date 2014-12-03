@@ -1,9 +1,8 @@
-package useful
+package wishful
 
 import (
 	"testing"
 	"testing/quick"
-	. "github.com/SimonRichardson/wishful/wishful"
 )
 
 func extractIO(x Any) Any {

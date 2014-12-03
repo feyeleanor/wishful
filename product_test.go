@@ -1,7 +1,6 @@
-package useful
+package wishful
 
 import (
-	. "github.com/SimonRichardson/wishful/wishful"
 	"testing"
 	"testing/quick"
 )

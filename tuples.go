@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type Tuple2 struct {
 	_1 Any

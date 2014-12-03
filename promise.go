@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type Contract func(Any) Promise
 
@@ -34,7 +30,7 @@ func (x Promise) Ap(v Applicative) Applicative {
 	}}
 }
 
-func (x Promise) Chain(f func(v Any) Monad) Monad {
+func (x Promise) Chain(f Step) Monad {
 	return Promise{func(resolve Transform) Any {
 		return x.Fork(func(a Any) Any {
 			p := f(a).(Promise)

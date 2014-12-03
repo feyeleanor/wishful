@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 var (
 	productConcat = fromMonadToSemigroupConcat(func(a Semigroup, b Semigroup) Any {
@@ -32,7 +28,7 @@ func (x Product) Empty() Monoid {
 	return NewProduct(Int(1))
 }
 
-func (x Product) Chain(f func(Any) Monad) Monad {
+func (x Product) Chain(f Step) Monad {
 	return f(x.x)
 }
 

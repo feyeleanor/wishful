@@ -1,10 +1,6 @@
-package useful
+package wishful
 
-import (
-	"reflect"
-
-	. "github.com/feyeleanor/wishful"
-)
+import "reflect"
 
 type Accessor interface {
 	Get(x Any) Any

@@ -1,4 +1,4 @@
-package useful
+package wishful
 
 import (
 	"testing"

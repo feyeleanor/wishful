@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type Store struct {
 	Set func(x Any) Any
@@ -16,7 +12,7 @@ func NewStore(set func(x Any) Any, get func() Any) Store {
 	}
 }
 
-func (x Store) Map(f func(x Any) Any) Functor {
+func (x Store) Map(f Transform) Functor {
 	return x.Extend(func(x Store) Any {
 		return f(x.Extract())
 	})

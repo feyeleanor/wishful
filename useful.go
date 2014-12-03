@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 var (
 	concat = fromMonadToSemigroupConcat(func(a Semigroup, b Semigroup) Any {

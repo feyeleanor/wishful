@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type Option interface {
 	Of(v Any) Point
@@ -57,11 +53,11 @@ func (x None) Ap(v Applicative) Applicative {
 	return x
 }
 
-func (x Some) Chain(f func(v Any) Monad) Monad {
+func (x Some) Chain(f Step) Monad {
 	return f(x.x)
 }
 
-func (x None) Chain(f func(v Any) Monad) Monad {
+func (x None) Chain(f Step) Monad {
 	return x
 }
 

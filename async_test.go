@@ -1,10 +1,8 @@
-package helpful
+package wishful
 
 import (
 	"testing"
 	"testing/quick"
-	. "github.com/SimonRichardson/wishful/useful"
-	. "github.com/SimonRichardson/wishful/wishful"
 )
 
 func success(x Any) Promise {

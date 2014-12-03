@@ -1,8 +1,4 @@
-package useful
-
-import (
-	. "github.com/feyeleanor/wishful"
-)
+package wishful
 
 type IdT struct {
 	m   Point
@@ -34,7 +30,7 @@ func (x IdT) Ap(v Applicative) Applicative {
 	return mon.(Applicative)
 }
 
-func (x IdT) Chain(f func(v Any) Monad) Monad {
+func (x IdT) Chain(f Step) Monad {
 	mon := x.Run.(Monad)
 	tra := IdT{
 		m: x.m,
