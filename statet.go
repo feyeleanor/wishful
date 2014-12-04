@@ -19,7 +19,7 @@ func (x StateT) Lift(m Functor) StateT {
 		m: x.m,
 		Run: func(b Any) Point {
 			return m.Map(func(c Any) Any {
-				return Tuple2{_1: c, _2: b}
+				return Tuple2{c, b}
 			}).(Point)
 		},
 	}
@@ -29,7 +29,7 @@ func (x StateT) Of(a Any) Point {
 	return StateT{
 		m: x.m,
 		Run: func(b Any) Point {
-			return x.m.Of(Tuple2{_1: a, _2: b})
+			return x.m.Of(Tuple2{a, b})
 		},
 	}
 }
@@ -42,8 +42,8 @@ func (x StateT) Chain(f Step) Monad {
 			return result.(Monad).Chain(func(t Any) Monad {
 				tup := t.(Tuple2)
 				fun := NewFunction(f)
-				res, _ := fun.Call(tup._1)
-				return res.(StateT).Run(tup._2).(Monad)
+				res, _ := fun.Call(tup[0])
+				return res.(StateT).Run(tup[1]).(Monad)
 			}).(Point)
 		},
 	}
@@ -53,7 +53,7 @@ func (x StateT) Get() StateT {
 	return StateT{
 		m: x.m,
 		Run: func(b Any) Point {
-			return x.m.Of(Tuple2{_1: b, _2: b})
+			return x.m.Of(Tuple2{b, b})
 		},
 	}
 }
@@ -64,7 +64,7 @@ func (x StateT) Modify(f Transform) StateT {
 		Run: func(b Any) Point {
 			fun := NewFunction(f)
 			res, _ := fun.Call(b)
-			return x.m.Of(Tuple2{_1: Empty{}, _2: res})
+			return x.m.Of(Tuple2{Empty{}, res})
 		},
 	}
 }
@@ -77,13 +77,13 @@ func (x StateT) Put(v Any) StateT {
 
 func (x StateT) EvalState(s Any) Any {
 	return x.Run(s).(Functor).Map(func(t Any) Any {
-		return t.(Tuple2)._1
+		return t.(Tuple2)[0]
 	})
 }
 
 func (x StateT) ExecState(s Any) Any {
 	return x.Run(s).(Functor).Map(func(t Any) Any {
-		return t.(Tuple2)._2
+		return t.(Tuple2)[1]
 	})
 }
 
