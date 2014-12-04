@@ -1,11 +1,11 @@
 package wishful
 
 type Store struct {
-	Set func(x Any) Any
-	Get func() Any
+	Set Transform
+	Get Thunk
 }
 
-func NewStore(set func(x Any) Any, get func() Any) Store {
+func NewStore(set Transform, get Thunk) Store {
 	return Store{
 		set,
 		get,

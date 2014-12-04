@@ -1,10 +1,10 @@
 package wishful
 
 type IO struct {
-	UnsafePerform func() Any
+	UnsafePerform Thunk
 }
 
-func NewIO(unsafe func() Any) IO {
+func NewIO(unsafe Thunk) IO {
 	return IO{
 		UnsafePerform: unsafe,
 	}

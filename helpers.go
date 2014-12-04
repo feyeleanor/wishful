@@ -1,5 +1,6 @@
 package wishful
 
+type Thunk func() Any
 type Transform func(Any) Any
 
 func Inc(a Any) (r Any) {

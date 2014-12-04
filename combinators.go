@@ -22,7 +22,7 @@ func Constant(a Any) Transform {
 		return a
 	}
 }
-func ConstantNoArgs(a Any) func() Any {
+func ConstantNoArgs(a Any) Thunk {
 	return func() Any {
 		return a
 	}
