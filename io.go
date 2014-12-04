@@ -36,7 +36,7 @@ func (x IO) Chain(f Step) Monad {
 	})
 }
 
-func (x IO) Map(f func(x Any) Any) Functor {
+func (x IO) Map(f Transform) Functor {
 	res := x.Chain(func(x Any) Monad {
 		return IO{func() Any {
 			return f(x)
