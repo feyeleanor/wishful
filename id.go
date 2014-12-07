@@ -26,7 +26,7 @@ func (x Id) Concat(y Semigroup) Semigroup {
 	return concat(x, y)
 }
 
-func (x Id) Map(f Transform) Functor {
+func (x Id) Map(f Morphism) Functor {
 	return x.Chain(func(x Any) Monad {
 		return NewId(f(x))
 	}).(Functor)

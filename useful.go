@@ -34,7 +34,7 @@ func fromMonadToSemigroupConcat(f func(a Semigroup, b Semigroup) Any) func(x Mon
 	}
 }
 
-func concatAnyvals(x Any) Transform {
+func concatAnyvals(x Any) Morphism {
 	return func(y Any) Any {
 		a := x.(Semigroup)
 		b := y.(Semigroup)

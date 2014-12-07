@@ -1,10 +1,10 @@
 package wishful
 
 type Endo struct {
-	Fork Transform
+	Fork Morphism
 }
 
-func NewEndo(x Transform) Endo {
+func NewEndo(x Morphism) Endo {
 	return Endo{
 		Fork: x,
 	}
@@ -29,7 +29,7 @@ func (x Endo) Concat(y Semigroup) Semigroup {
 	})
 }
 
-func (x Endo) Map(f Transform) Functor {
+func (x Endo) Map(f Morphism) Functor {
 	return NewEndo(func(v Any) Any {
 		return f(x.Fork(v))
 	})

@@ -5,12 +5,12 @@ type Either interface {
 	Ap(Applicative) Applicative
 	Chain(Step) Monad
 	Concat(Semigroup) Semigroup
-	Map(Transform) Functor
-	Bimap(f, g Transform) Monad
-	Fold(f, g Transform) Any
+	Map(Morphism) Functor
+	Bimap(f, g Morphism) Monad
+	Fold(f, g Morphism) Any
 	Swap() Monad
 	Sequence(Point) Any
-	Traverse(Transform, Point) Functor
+	Traverse(Morphism, Point) Functor
 }
 
 type Left struct {
@@ -53,11 +53,11 @@ func (x Right) Chain(f Step) Monad {
 	return f(x.x)
 }
 
-func (x Left) Map(f Transform) Functor {
+func (x Left) Map(f Morphism) Functor {
 	return x
 }
 
-func (x Right) Map(f Transform) Functor {
+func (x Right) Map(f Morphism) Functor {
 	res := x.Chain(func(v Any) Monad {
 		return NewRight(f(v))
 	})
@@ -81,19 +81,19 @@ func (x Right) Swap() Monad {
 	return NewLeft(x.x)
 }
 
-func (x Left) Bimap(f, g Transform) Monad {
+func (x Left) Bimap(f, g Morphism) Monad {
 	return NewLeft(f(x.x))
 }
 
-func (x Right) Bimap(f, g Transform) Monad {
+func (x Right) Bimap(f, g Morphism) Monad {
 	return NewRight(g(x.x))
 }
 
-func (x Left) Fold(f, g Transform) Any {
+func (x Left) Fold(f, g Morphism) Any {
 	return f(x.x)
 }
 
-func (x Right) Fold(f, g Transform) Any {
+func (x Right) Fold(f, g Morphism) Any {
 	return g(x.x)
 }
 
@@ -105,11 +105,11 @@ func (x Right) Sequence(p Point) Any {
 	return x.Traverse(Identity, p)
 }
 
-func (x Left) Traverse(f Transform, p Point) Functor {
+func (x Left) Traverse(f Morphism, p Point) Functor {
 	return p.Of(NewLeft(x.x)).(Functor)
 }
 
-func (x Right) Traverse(f Transform, p Point) Functor {
+func (x Right) Traverse(f Morphism, p Point) Functor {
 	return f(x.x).(Functor).Map(func(a Any) Any {
 		return NewRight(a)
 	})

@@ -42,7 +42,7 @@ func (x IdT) Chain(f Step) Monad {
 	return tra
 }
 
-func (x IdT) Map(f Transform) Functor {
+func (x IdT) Map(f Morphism) Functor {
 	mon := x.Chain(func(y Any) Monad {
 		app := NewIdT(x.m).Of(f(y))
 		return app.(Monad)

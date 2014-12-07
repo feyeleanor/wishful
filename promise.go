@@ -3,21 +3,21 @@ package wishful
 type Contract func(Any) Promise
 
 type Promise struct {
-	Fork func(resolve Transform) Any
+	Fork func(resolve Morphism) Any
 }
 
-func NewPromise(f func(resolve Transform) Any) Promise {
+func NewPromise(f func(resolve Morphism) Any) Promise {
 	return Promise{Fork: f}
 }
 
 func (x Promise) Of(v Any) Point {
-	return Promise{func(resolve Transform) Any {
+	return Promise{func(resolve Morphism) Any {
 		return resolve(v)
 	}}
 }
 
 func (x Promise) Ap(v Applicative) Applicative {
-	return Promise{func(resolve Transform) Any {
+	return Promise{func(resolve Morphism) Any {
 		return x.Fork(func(f Any) Any {
 			fun := v.(Functor)
 			pro := fun.Map(func(x Any) Any {
@@ -31,7 +31,7 @@ func (x Promise) Ap(v Applicative) Applicative {
 }
 
 func (x Promise) Chain(f Step) Monad {
-	return Promise{func(resolve Transform) Any {
+	return Promise{func(resolve Morphism) Any {
 		return x.Fork(func(a Any) Any {
 			p := f(a).(Promise)
 			return p.Fork(resolve)
@@ -39,8 +39,8 @@ func (x Promise) Chain(f Step) Monad {
 	}}
 }
 
-func (x Promise) Map(f Transform) Functor {
-	return Promise{func(resolve Transform) Any {
+func (x Promise) Map(f Morphism) Functor {
+	return Promise{func(resolve Morphism) Any {
 		return x.Fork(func(a Any) Any {
 			return resolve(f(a))
 		})

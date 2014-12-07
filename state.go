@@ -32,7 +32,7 @@ func (x State) Chain(f Step) Monad {
 	}}
 }
 
-func (x State) Map(f Transform) Functor {
+func (x State) Map(f Morphism) Functor {
 	fun := x.Chain(func(y Any) Monad {
 		return x.Of(f(y)).(Monad)
 	})
@@ -57,7 +57,7 @@ func (x State) Get() State {
 	}}
 }
 
-func (x State) Modify(f Transform) State {
+func (x State) Modify(f Morphism) State {
 	return State{func(z Any) (Any, Any) {
 		fun := NewFunction(f)
 		res, _ := fun.Call(z)

@@ -1,18 +1,18 @@
 package wishful
 
 type Store struct {
-	Set Transform
+	Set Morphism
 	Get Thunk
 }
 
-func NewStore(set Transform, get Thunk) Store {
+func NewStore(set Morphism, get Thunk) Store {
 	return Store{
 		set,
 		get,
 	}
 }
 
-func (x Store) Map(f Transform) Functor {
+func (x Store) Map(f Morphism) Functor {
 	return x.Extend(func(x Store) Any {
 		return f(x.Extract())
 	})

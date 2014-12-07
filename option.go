@@ -6,8 +6,8 @@ type Option interface {
 	Ap(v Applicative) Applicative
 	Chain(f func(v Any) Monad) Monad
 	Concat(y Semigroup) Semigroup
-	Fold(f Transform, g Thunk) Any
-	Map(f Transform) Functor
+	Fold(f Morphism, g Thunk) Any
+	Map(f Morphism) Functor
 	GetOrElse(f Thunk) Any
 	OrElse(y Option) Option
 }
@@ -61,22 +61,22 @@ func (x None) Chain(f Step) Monad {
 	return x
 }
 
-func (x Some) Fold(f Transform, g Thunk) Any {
+func (x Some) Fold(f Morphism, g Thunk) Any {
 	return f(x.x)
 }
 
-func (x None) Fold(f Transform, g Thunk) Any {
+func (x None) Fold(f Morphism, g Thunk) Any {
 	return g()
 }
 
-func (x Some) Map(f Transform) Functor {
+func (x Some) Map(f Morphism) Functor {
 	res := x.Chain(func(v Any) Monad {
 		return NewSome(f(v))
 	})
 	return res.(Functor)
 }
 
-func (x None) Map(f Transform) Functor {
+func (x None) Map(f Morphism) Functor {
 	return x
 }
 

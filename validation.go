@@ -5,9 +5,9 @@ type Validation interface {
 	Ap(v Applicative) Applicative
 	Monad
 	Concat(y Semigroup) Semigroup
-	Map(f Transform) Functor
-	Fold(f, g Transform) Any
-	Bimap(f, g Transform) Monad
+	Map(f Morphism) Functor
+	Fold(f, g Morphism) Any
+	Bimap(f, g Morphism) Monad
 }
 
 type Failure struct {
@@ -65,11 +65,11 @@ func (x Success) Chain(f Step) Monad {
 	return f(x.x)
 }
 
-func (x Failure) Map(f Transform) Functor {
+func (x Failure) Map(f Morphism) Functor {
 	return x.Bimap(Identity, f).(Functor)
 }
 
-func (x Success) Map(f Transform) Functor {
+func (x Success) Map(f Morphism) Functor {
 	return x.Bimap(Identity, f).(Functor)
 }
 
@@ -90,18 +90,18 @@ func (x Success) Concat(y Semigroup) Semigroup {
 
 // Derived
 
-func (x Failure) Fold(f, g Transform) Any {
+func (x Failure) Fold(f, g Morphism) Any {
 	return f(x.x)
 }
 
-func (x Success) Fold(f, g Transform) Any {
+func (x Success) Fold(f, g Morphism) Any {
 	return g(x.x)
 }
 
-func (x Failure) Bimap(f, g Transform) Monad {
+func (x Failure) Bimap(f, g Morphism) Monad {
 	return NewFailure(f(x.x))
 }
 
-func (x Success) Bimap(f, g Transform) Monad {
+func (x Success) Bimap(f, g Morphism) Monad {
 	return NewSuccess(g(x.x))
 }

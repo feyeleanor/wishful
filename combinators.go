@@ -1,15 +1,15 @@
 package wishful
 
 // A combinator
-func Apply(f Transform) Transform {
+func Apply(f Morphism) Morphism {
 	return func(x Any) Any {
 		return f(x)
 	}
 }
 
 // B combinator
-func Compose(f Transform) func(Transform) Transform {
-	return func(g Transform) Transform {
+func Compose(f Morphism) func(Morphism) Morphism {
+	return func(g Morphism) Morphism {
 		return func(a Any) Any {
 			return f(g(a))
 		}
@@ -17,7 +17,7 @@ func Compose(f Transform) func(Transform) Transform {
 }
 
 // K combinator
-func Constant(a Any) Transform {
+func Constant(a Any) Morphism {
 	return func(b Any) Any {
 		return a
 	}
@@ -34,8 +34,8 @@ func Identity(x Any) Any {
 }
 
 // T combinator
-func Thrush(x Any) func(f Transform) Any {
-	return func(f Transform) Any {
+func Thrush(x Any) func(f Morphism) Any {
+	return func(f Morphism) Any {
 		return f(x)
 	}
 }

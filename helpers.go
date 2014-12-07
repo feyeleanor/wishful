@@ -1,7 +1,8 @@
 package wishful
 
 type Thunk func() Any
-type Transform func(Any) Any
+
+type Morphism func(Any) Any //	http://en.wikipedia.org/wiki/Morphism
 
 func Inc(a Any) (r Any) {
 	switch obj := a.(type) {
