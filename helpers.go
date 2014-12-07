@@ -2,6 +2,7 @@ package wishful
 
 type Thunk func() Any
 
+type Transform func(int) Any
 type Morphism func(Any) Any //	http://en.wikipedia.org/wiki/Morphism
 
 func Inc(a Any) (r Any) {

@@ -18,8 +18,8 @@ func NewMonadLaws(point Point) MonadLaws {
 	}
 }
 
-func (o MonadLaws) LeftIdentity(run Morphism) (func(v int) Any, func(v int) Any) {
-	f := func(v int) Any {
+func (o MonadLaws) LeftIdentity(run Morphism) (f, g Transform) {
+	f = func(v int) Any {
 		a := o.x.Of(v).(Monad)
 		return run(a.Chain(func(x Any) Monad {
 			return Apply(func(x Any) Any {
@@ -27,29 +27,29 @@ func (o MonadLaws) LeftIdentity(run Morphism) (func(v int) Any, func(v int) Any)
 			})(x).(Monad)
 		}))
 	}
-	g := func(v int) Any {
+	g = func(v int) Any {
 		return run(Apply(func(x Any) Any {
 			return o.x.Of(x)
 		})(v))
 	}
-	return f, g
+	return
 }
 
-func (o MonadLaws) RightIdentity(run Morphism) (func(v int) Any, func(v int) Any) {
-	f := func(v int) Any {
+func (o MonadLaws) RightIdentity(run Morphism) (f, g Transform) {
+	f = func(v int) Any {
 		a := o.x.Of(v).(Monad)
 		return run(a.Chain(func(x Any) Monad {
 			return o.x.Of(x).(Monad)
 		}))
 	}
-	g := func(v int) Any {
+	g = func(v int) Any {
 		return run(o.x.Of(v))
 	}
-	return f, g
+	return
 }
 
-func (o MonadLaws) Associativity(run Morphism) (func(v int) Any, func(v int) Any) {
-	f := func(v int) Any {
+func (o MonadLaws) Associativity(run Morphism) (f, g Transform) {
+	f = func(v int) Any {
 		a := o.x.Of(v).(Monad)
 		return run(a.Chain(func(x Any) Monad {
 			return o.x.Of(x).(Monad)
@@ -57,7 +57,7 @@ func (o MonadLaws) Associativity(run Morphism) (func(v int) Any, func(v int) Any
 			return o.x.Of(x).(Monad)
 		}))
 	}
-	g := func(v int) Any {
+	g = func(v int) Any {
 		a := o.x.Of(v).(Monad)
 		return run(a.Chain(func(x Any) Monad {
 			b := o.x.Of(x).(Monad)
@@ -66,5 +66,5 @@ func (o MonadLaws) Associativity(run Morphism) (func(v int) Any, func(v int) Any
 			})
 		}))
 	}
-	return f, g
+	return
 }

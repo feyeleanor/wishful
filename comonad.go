@@ -15,24 +15,24 @@ func NewComonadLaws(point Point) ComonadLaws {
 	}
 }
 
-func (o ComonadLaws) Identity(run Morphism) (func(v int) Any, func(v int) Any) {
-	f := func(v int) Any {
+func (o ComonadLaws) Identity(run Morphism) (f, g Transform) {
+	f = func(v int) Any {
 		a := o.x.Of(v).(Comonad)
 		return run(a.Extend(func(x Comonad) Any {
 			return a.Extract()
 		}))
 	}
-	g := func(v int) Any {
+	g = func(v int) Any {
 		return run(o.x.Of(v))
 	}
-	return f, g
+	return
 }
 
-func (o ComonadLaws) Composition(run Morphism) (func(v int) Any, func(v int) Any) {
+func (o ComonadLaws) Composition(run Morphism) (f, g Transform) {
 	extract := func(y Comonad) Any {
 		return y.Extract()
 	}
-	f := func(v int) Any {
+	f = func(v int) Any {
 		a := o.x.Of(v).(Comonad)
 		b := Compose(func(x Any) Any {
 			return a.Extract()
@@ -42,14 +42,14 @@ func (o ComonadLaws) Composition(run Morphism) (func(v int) Any, func(v int) Any
 
 		return run(b(a))
 	}
-	g := func(v int) Any {
+	g = func(v int) Any {
 		a := o.x.Of(v).(Comonad)
 		return run(extract(a))
 	}
-	return f, g
+	return
 }
 
-func (o ComonadLaws) Associativity(run Morphism) (func(v int) Any, func(v int) Any) {
+func (o ComonadLaws) Associativity(run Morphism) (f, g Transform) {
 	extract := func(y Comonad) Any {
 		return y.Extract()
 	}
@@ -58,15 +58,15 @@ func (o ComonadLaws) Associativity(run Morphism) (func(v int) Any, func(v int) A
 			return x.Extend(extract)
 		}
 	}
-	f := func(v int) Any {
+	f = func(v int) Any {
 		a := o.x.Of(v).(Comonad)
 		b := Compose(duplicate(a))(duplicate(a))
 		return run(b(a))
 	}
-	g := func(v int) Any {
+	g = func(v int) Any {
 		a := o.x.Of(v).(Functor)
 		c := a.(Comonad)
 		return run(a.Map(Compose(duplicate(c))(duplicate(c))).(Comonad).Extract())
 	}
-	return f, g
+	return
 }
