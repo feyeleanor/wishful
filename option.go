@@ -1,15 +1,15 @@
 package wishful
 
 type Option interface {
-	Of(v Any) Point
+	Of(Any) Point
 	Empty() Monoid
-	Ap(v Applicative) Applicative
-	Chain(f func(v Any) Monad) Monad
-	Concat(y Semigroup) Semigroup
-	Fold(f Morphism, g Thunk) Any
-	Map(f Morphism) Functor
-	GetOrElse(f Thunk) Any
-	OrElse(y Option) Option
+	Ap(Applicative) Applicative
+	Chain(Step) Monad
+	Concat(Semigroup) Semigroup
+	Fold(Morphism, Thunk) Any
+	Map(Morphism) Functor
+	GetOrElse(Thunk) Any
+	OrElse(Option) Option
 }
 
 type Some struct {
