@@ -6,117 +6,104 @@ type Option interface {
 	Ap(Applicative) Applicative
 	Chain(Step) Monad
 	Concat(Semigroup) Semigroup
-	//	Fold(Morphism, Thunk) Any
 	Foldable
 	Map(Morphism) Functor
 	GetOrElse(Thunk) Any
 	OrElse(Option) Option
 }
 
-type Some struct {
-	x Any
+type some struct {
+	x interface{}
 }
 
-func NewSome(x Any) Some {
-	return Some{
+func Some(x Any) some {
+	return some{
 		x: x,
 	}
 }
 
-func (x Some) Of(v Any) Point {
-	return NewSome(v)
+func (x some) Of(v Any) Point {
+	return Some(v)
 }
 
-func (x Some) Empty() Monoid {
-	return NewNone()
+func (x some) Empty() Monoid {
+	return None()
 }
 
-func (x Some) Ap(v Applicative) Applicative {
+func (x some) Ap(v Applicative) Applicative {
 	return fromMonadToApplicativeAp(x, v)
 }
 
-func (x Some) Chain(f Step) Monad {
+func (x some) Chain(f Step) Monad {
 	return f(x.x)
 }
 
-/*
-func (x Some) Fold(f Morphism, g Thunk) Any {
-	return f(x.x)
-}
-*/
-
-func (x Some) Fold(f, g Morphism) Any {
+func (x some) Fold(f, g Morphism) Any {
 	return f(x.x)
 }
 
-func (x Some) Map(f Morphism) Functor {
+func (x some) Map(f Morphism) Functor {
 	res := x.Chain(func(v Any) Monad {
-		return NewSome(f(v))
+		return Some(f(v))
 	})
 	return res.(Functor)
 }
 
-func (x Some) Concat(y Semigroup) Semigroup {
+func (x some) Concat(y Semigroup) Semigroup {
 	return concat(x, y)
 }
 
 // Derived
 
-func (x Some) GetOrElse(f Thunk) Any {
+func (x some) GetOrElse(f Thunk) Any {
 	return x.x
 }
 
-func (x Some) OrElse(y Option) Option {
-	return Some{}.Of(x.x).(Option)
+func (x some) OrElse(y Option) Option {
+	return some{}.Of(x.x).(Option)
 }
 
-type None struct {
+type none struct {
 }
 
-func NewNone() None {
-	return None{}
+func None() none {
+	return none{}
 }
 
-func (x None) Of(v Any) Point {
-	return NewSome(v)
+func (x none) Of(v Any) Point {
+	return Some(v)
 }
 
-func (x None) Empty() Monoid {
-	return NewNone()
+func (x none) Empty() Monoid {
+	return None()
 }
 
-func (x None) Ap(v Applicative) Applicative {
+func (x none) Ap(v Applicative) Applicative {
 	return x
 }
 
-func (x None) Chain(f Step) Monad {
+func (x none) Chain(f Step) Monad {
 	return x
 }
 
-/*
-func (x None) Fold(f Morphism, g Thunk) Any {
-	return g()
-}
-*/
-
-func (x None) Fold(f, g Morphism) Any {
+func (x none) Fold(f, g Morphism) Any {
 	return g(nil)
 }
 
-func (x None) Map(f Morphism) Functor {
+func (x none) Map(f Morphism) Functor {
 	return x
 }
 
-func (x None) Concat(y Semigroup) Semigroup {
+func (x none) Concat(y Semigroup) Semigroup {
 	return x
 }
 
 // Derived
 
-func (x None) GetOrElse(f Thunk) Any {
+func (x none) GetOrElse(f Thunk) Any {
 	return f()
 }
 
-func (x None) OrElse(y Option) Option {
+func (x none) OrElse(y Option) Option {
 	return y
 }
