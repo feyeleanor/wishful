@@ -1,5 +1,5 @@
 package wishful
 
 type Foldable interface {
-	Fold(f, g Morphism) Any
+	Fold(Morphism, Morphism) Any
 }

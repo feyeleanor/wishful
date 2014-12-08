@@ -7,7 +7,7 @@ type Either interface {
 	Concat(Semigroup) Semigroup
 	Map(Morphism) Functor
 	Bimap(f, g Morphism) Monad
-	Fold(f, g Morphism) Any
+	Foldable
 	Swap() Monad
 	Sequence(Point) Any
 	Traverse(Morphism, Point) Functor
