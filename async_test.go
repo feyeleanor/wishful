@@ -5,15 +5,13 @@ import (
 	"testing/quick"
 )
 
-func success(x Any) Promise {
-	return Promise{}.Of(x).(Promise)
-}
-
 // Manual tests
 
 func Test_Async(t *testing.T) {
 	f := func(x string) string {
-		get := Async(success)
+		get := Async(func(x Any) Promise {
+			return Promise{}.Of(x).(Promise)
+		})
 		a := get(x)
 		b := a.Fold(
 			Identity,
