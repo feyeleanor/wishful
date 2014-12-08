@@ -5,12 +5,12 @@ import (
 	"testing/quick"
 )
 
-type Value struct {
+type value struct {
 	Val int
 }
 
-func (v Value) Concat(a Semigroup) Semigroup {
-	return Value{v.Val + a.(Value).Val}
+func (v value) Concat(a Semigroup) Semigroup {
+	return value{v.Val + a.(value).Val}
 }
 
 // Manual tests
@@ -41,10 +41,10 @@ func Test_Validation_Failure_Of(t *testing.T) {
 
 func Test_Validation_Failure_Ap(t *testing.T) {
 	f := func(x int) Validation {
-		return Failure{Value{x}}.Ap(Failure{Value{1}}).(Validation)
+		return Failure{value{x}}.Ap(Failure{value{1}}).(Validation)
 	}
 	g := func(x int) Validation {
-		return Failure{Value{x + 1}}
+		return Failure{value{x + 1}}
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -53,10 +53,10 @@ func Test_Validation_Failure_Ap(t *testing.T) {
 
 func Test_Validation_Failure_ApWithSuccess(t *testing.T) {
 	f := func(x int) Validation {
-		return Failure{Value{x}}.Ap(Success{Value{1}}).(Validation)
+		return Failure{value{x}}.Ap(Success{value{1}}).(Validation)
 	}
 	g := func(x int) Validation {
-		return Failure{Value{x}}
+		return Failure{value{x}}
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -91,10 +91,10 @@ func Test_Validation_Failure_Map(t *testing.T) {
 
 func Test_Validation_Failure_Concat(t *testing.T) {
 	f := func(x int) Validation {
-		return Failure{Value{x}}.Concat(Failure{Value{1}}).(Validation)
+		return Failure{value{x}}.Concat(Failure{value{1}}).(Validation)
 	}
 	g := func(x int) Validation {
-		return Failure{Value{x + 1}}
+		return Failure{value{x + 1}}
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)

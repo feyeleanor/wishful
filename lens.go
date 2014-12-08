@@ -55,7 +55,7 @@ func (x Lens) AccessorLens(accessor Accessor) Lens {
 			func(b Any) Any {
 				return accessor.Set(a, b)
 			},
-			func() Any {
+			func() interface{} {
 				return accessor.Get(a)
 			},
 		)
@@ -74,7 +74,7 @@ func (x Lens) ObjectLens(property string) Lens {
 				val.Set(reflect.ValueOf(b))
 				return dst.Interface()
 			},
-			func() Any {
+			func() interface{} {
 				return val.Interface()
 			},
 		)
@@ -93,7 +93,7 @@ func (x Lens) SliceLens(index int) Lens {
 				val.Set(reflect.ValueOf(b))
 				return dst.Interface()
 			},
-			func() Any {
+			func() interface{} {
 				return val.Interface()
 			},
 		)

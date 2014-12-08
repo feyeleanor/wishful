@@ -10,7 +10,7 @@ func Test_Store_Map(t *testing.T) {
 		return x
 	}
 	g := func(x int) int {
-		store := NewStore(Identity, func() Any {
+		store := NewStore(Identity, func() interface{} {
 			return x
 		})
 		fun := store.Map(Identity)
@@ -26,7 +26,7 @@ func Test_Store_Extract(t *testing.T) {
 		return x
 	}
 	g := func(x int) int {
-		store := NewStore(Identity, func() Any {
+		store := NewStore(Identity, func() interface{} {
 			return x
 		})
 		return store.Extract().(int)
@@ -41,7 +41,7 @@ func Test_Store_Extend(t *testing.T) {
 		return x
 	}
 	g := func(x int) int {
-		store := NewStore(Identity, func() Any {
+		store := NewStore(Identity, func() interface{} {
 			return x
 		})
 		ext := store.Extend(func(x Store) Any {

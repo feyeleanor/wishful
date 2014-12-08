@@ -22,8 +22,9 @@ func Constant(a Any) Morphism {
 		return a
 	}
 }
-func ConstantNoArgs(a Any) Thunk {
-	return func() Any {
+
+func ConstantNoArgs(a Any) Value {
+	return func() interface{} {
 		return a
 	}
 }

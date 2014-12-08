@@ -9,7 +9,7 @@ import (
 
 func Test_Option_None_Empty(t *testing.T) {
 	f := func(x int) Option {
-		return none{}.Empty().(Option)
+		return None().Empty().(Option)
 	}
 	g := func(x int) Option {
 		return some{}.Empty().(Option)
@@ -21,7 +21,7 @@ func Test_Option_None_Empty(t *testing.T) {
 
 func Test_Option_None_Of(t *testing.T) {
 	f := func(x int) Option {
-		return none{}.Of(x).(Option)
+		return None().Of(x).(Option)
 	}
 	g := func(x int) Option {
 		return some{}.Of(x).(Option)
@@ -33,10 +33,10 @@ func Test_Option_None_Of(t *testing.T) {
 
 func Test_Option_None_Ap(t *testing.T) {
 	f := func(x int) Option {
-		return none{}.Ap(none{}).(Option)
+		return None().Ap(None()).(Option)
 	}
 	g := func(x int) Option {
-		return none{}
+		return None()
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -45,12 +45,12 @@ func Test_Option_None_Ap(t *testing.T) {
 
 func Test_Option_None_Chain(t *testing.T) {
 	f := func(x int) Option {
-		return none{}.Chain(func(v Any) Monad {
-			return none{}
+		return None().Chain(func(v Any) Monad {
+			return None()
 		}).(Option)
 	}
 	g := func(x int) Option {
-		return none{}
+		return None()
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -59,10 +59,10 @@ func Test_Option_None_Chain(t *testing.T) {
 
 func Test_Option_None_Map(t *testing.T) {
 	f := func(x int) Option {
-		return none{}.Map(Identity).(Option)
+		return None().Map(Identity).(Option)
 	}
 	g := func(x int) Option {
-		return none{}
+		return None()
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -71,10 +71,10 @@ func Test_Option_None_Map(t *testing.T) {
 
 func Test_Option_None_Concat(t *testing.T) {
 	f := func(x int) Option {
-		return none{}.Concat(none{}).(Option)
+		return None().Concat(None()).(Option)
 	}
 	g := func(x int) Option {
-		return none{}
+		return None()
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -98,7 +98,7 @@ func Test_Option_None_GetOrElse(t *testing.T) {
 		return y
 	}
 	g := func(x int, y int) int {
-		return none{}.GetOrElse(ConstantNoArgs(y)).(int)
+		return None().GetOrElse(ConstantNoArgs(y)).(int)
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -122,7 +122,7 @@ func Test_Option_None_OrElse(t *testing.T) {
 		return some{y}
 	}
 	g := func(x int, y int) Option {
-		return none{}.OrElse(some{y})
+		return None().OrElse(some{y})
 	}
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
@@ -164,28 +164,28 @@ func Test_Option_Some_ApplicativeLaws_Interchange(t *testing.T) {
 // None
 
 func Test_Option_None_ApplicativeLaws_Identity(t *testing.T) {
-	f, g := NewApplicativeLaws(none{}).Identity(Identity)
+	f, g := NewApplicativeLaws(None()).Identity(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_Option_None_ApplicativeLaws_Composition(t *testing.T) {
-	f, g := NewApplicativeLaws(none{}).Composition(Identity)
+	f, g := NewApplicativeLaws(None()).Composition(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_Option_None_ApplicativeLaws_Homomorphism(t *testing.T) {
-	f, g := NewApplicativeLaws(none{}).Homomorphism(Identity)
+	f, g := NewApplicativeLaws(None()).Homomorphism(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_Option_None_ApplicativeLaws_Interchange(t *testing.T) {
-	f, g := NewApplicativeLaws(none{}).Interchange(Identity)
+	f, g := NewApplicativeLaws(None()).Interchange(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
@@ -212,14 +212,14 @@ func Test_Option_Some_FunctorLaws_Composition(t *testing.T) {
 // None
 
 func Test_Option_None_FunctorLaws_Identity(t *testing.T) {
-	f, g := NewFunctorLaws(none{}).Identity(Identity)
+	f, g := NewFunctorLaws(None()).Identity(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_Option_None_FunctorLaws_Composition(t *testing.T) {
-	f, g := NewFunctorLaws(none{}).Composition(Identity)
+	f, g := NewFunctorLaws(None()).Composition(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
@@ -253,21 +253,21 @@ func Test_Option_Some_MonadLaws_Associativity(t *testing.T) {
 // None
 
 func Test_Option_None_MonadLaws_LeftIdentity(t *testing.T) {
-	f, g := NewMonadLaws(none{}).LeftIdentity(Identity)
+	f, g := NewMonadLaws(None()).LeftIdentity(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_Option_None_MonadLaws_RightIdentity(t *testing.T) {
-	f, g := NewMonadLaws(none{}).RightIdentity(Identity)
+	f, g := NewMonadLaws(None()).RightIdentity(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_Option_None_MonadLaws_Associativity(t *testing.T) {
-	f, g := NewMonadLaws(none{}).Associativity(Identity)
+	f, g := NewMonadLaws(None()).Associativity(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}
@@ -287,7 +287,7 @@ func Test_Option_Some_SemigroupLaws_Associativity(t *testing.T) {
 // None
 
 func Test_Option_None_SemigroupLaws_Associativity(t *testing.T) {
-	f, g := NewSemigroupLaws(none{}).Associativity(Identity)
+	f, g := NewSemigroupLaws(None()).Associativity(Identity)
 	if err := quick.CheckEqual(f, g, nil); err != nil {
 		t.Error(err)
 	}

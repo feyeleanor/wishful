@@ -1,6 +1,6 @@
 package wishful
 
-type Thunk func() Any
+type Value func() interface{}
 
 type Transform func(int) Any
 type Morphism func(Any) Any //	http://en.wikipedia.org/wiki/Morphism

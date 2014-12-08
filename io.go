@@ -1,17 +1,17 @@
 package wishful
 
 type IO struct {
-	UnsafePerform Thunk
+	UnsafePerform Value
 }
 
-func NewIO(unsafe Thunk) IO {
+func NewIO(unsafe Value) IO {
 	return IO{
 		UnsafePerform: unsafe,
 	}
 }
 
 func (x IO) Of(v Any) Point {
-	return NewIO(func() Any {
+	return NewIO(func() interface{} {
 		return v
 	})
 }
@@ -30,7 +30,7 @@ func (x IO) Ap(v Applicative) Applicative {
 }
 
 func (x IO) Chain(f Step) Monad {
-	return NewIO(func() Any {
+	return NewIO(func() interface{} {
 		io := f(x.UnsafePerform()).(IO)
 		return io.UnsafePerform()
 	})
@@ -38,7 +38,7 @@ func (x IO) Chain(f Step) Monad {
 
 func (x IO) Map(f Morphism) Functor {
 	res := x.Chain(func(x Any) Monad {
-		return IO{func() Any {
+		return IO{func() interface{} {
 			return f(x)
 		}}
 	})

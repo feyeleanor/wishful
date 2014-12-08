@@ -2,10 +2,10 @@ package wishful
 
 type Store struct {
 	Set Morphism
-	Get Thunk
+	Get Value
 }
 
-func NewStore(set Morphism, get Thunk) Store {
+func NewStore(set Morphism, get Value) Store {
 	return Store{
 		set,
 		get,
@@ -26,7 +26,7 @@ func (x Store) Extend(f func(x Store) Any) Store {
 			fun := NewFunction(f)
 			res, _ := fun.Call(Store{
 				x.Set,
-				func() Any {
+				func() interface{} {
 					return y
 				},
 			})
